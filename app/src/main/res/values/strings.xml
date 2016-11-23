@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Doors Open Ottawa</string>
+    <string name="building_name_placeholder">Building name</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="action_about">About</string>
+    <string name="author">Ryan Doiron (doir0008@algonquinlive.com)</string>
+</resources>
