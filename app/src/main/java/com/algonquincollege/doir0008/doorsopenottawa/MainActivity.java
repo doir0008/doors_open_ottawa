@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -128,6 +129,17 @@ public class MainActivity extends ListActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("TAG","onDestroy");
+        if (isOnline()) {
+            requestData( IMAGES_BASE_URL + "users/logout" );
+        } else {
+            Toast.makeText(this, "Network isn't available", Toast.LENGTH_LONG).show();
+        }
+    }
+
     private class MyTask extends AsyncTask<String, String, List<Building>> {
 
         @Override
@@ -141,7 +153,8 @@ public class MainActivity extends ListActivity {
         @Override
         protected List<Building> doInBackground(String... params) {
 
-            String content = HttpManager.getData(params[0]);
+            // String content = HttpManager.getData(params[0]);
+            String content = HttpManager.getData( params[0], "doir0008", "password" );
             buildingList = BuildingJSONParser.parseFeed(content);
 
             return buildingList;
