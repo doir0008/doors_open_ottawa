@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,21 +35,27 @@ import java.util.List;
  * Reference: based on DisplayList in "Connecting Android Apps to RESTful Web Services" with David Gassner
  */
 
-public class MainActivity extends ListActivity {
+ public class MainActivity extends ListActivity implements SwipeRefreshLayout.OnRefreshListener {
+//public class MainActivity extends ListActivity {
 
     // URL to RESTful API Service hosted on Bluemix account.
     public static final String IMAGES_BASE_URL = "https://doors-open-ottawa-hurdleg.mybluemix.net/";
     public static final String REST_URI = "https://doors-open-ottawa-hurdleg.mybluemix.net/buildings";
 
     private static final String ABOUT_DIALOG_TAG;
+    private static final String LOG_TAG;
 
     private ProgressBar pb;
     private List<MyTask> tasks;
 
     private List<Building> buildingList;
 
+    // TODO: Swipe refresh
+    SwipeRefreshLayout swipeRefreshList;
+
     static {
         ABOUT_DIALOG_TAG = "About Dialog";
+        LOG_TAG = "***";
     }
 
     @Override
@@ -60,6 +67,10 @@ public class MainActivity extends ListActivity {
         pb.setVisibility(View.INVISIBLE);
 
         tasks = new ArrayList<>();
+
+        // TODO: Swipe refresh
+        swipeRefreshList = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_list);
+        swipeRefreshList.setOnRefreshListener(this);
 
         // single selection && register this ListActivity as the event handler
         getListView().setChoiceMode( ListView.CHOICE_MODE_SINGLE );
@@ -86,6 +97,8 @@ public class MainActivity extends ListActivity {
             Toast.makeText(this, "Network isn't available", Toast.LENGTH_LONG).show();
         }
 
+        // TODO: Swipe refresh
+        this.onRefresh();
     }
 
     @Override
@@ -135,6 +148,22 @@ public class MainActivity extends ListActivity {
         Log.e("TAG","onDestroy");
         if (isOnline()) {
             requestData( IMAGES_BASE_URL + "users/logout" );
+        } else {
+            Toast.makeText(this, "Network isn't available", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    // TODO: Swipe refresh
+    @Override
+    public void onRefresh() {
+        Log.i(LOG_TAG, "onRefresh called from SwipeRefreshLayout");
+
+        // This method performs the actual data-refresh operation.
+        // The method calls setRefreshing(false) when it's finished.
+        // myUpdateOperation();
+        if (isOnline()) {
+            requestData( REST_URI );
+            swipeRefreshList.setRefreshing(false);
         } else {
             Toast.makeText(this, "Network isn't available", Toast.LENGTH_LONG).show();
         }
