@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.ListView;
@@ -22,6 +23,8 @@ import com.algonquincollege.doir0008.doorsopenottawa.model.Building;
 import com.algonquincollege.doir0008.doorsopenottawa.parsers.BuildingJSONParser;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -110,15 +113,80 @@ import java.util.List;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        int id = item.getItemId();
+//        int id = item.getItemId();
+//
+//        if (id == R.id.action_about) {
+//            DialogFragment newFragment = new AboutDialogFragment();
+//            newFragment.show(getFragmentManager(), ABOUT_DIALOG_TAG);
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
 
-        if (id == R.id.action_about) {
+        if (item.getItemId() == R.id.action_about) {
             DialogFragment newFragment = new AboutDialogFragment();
             newFragment.show(getFragmentManager(), ABOUT_DIALOG_TAG);
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_post_data) {
+            if (isOnline()) {
+//                createPlanet( REST_URI );
+            } else {
+                Toast.makeText(this, "Network isn't available", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        if (item.getItemId() == R.id.action_put_data) {
+            if (isOnline()) {
+//                updatePlanet( REST_URI );
+            } else {
+                Toast.makeText(this, "Network isn't available", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        if (item.getItemId() == R.id.action_delete_data) {
+            if (isOnline()) {
+//                deletePlanet( REST_URI );
+            } else {
+                Toast.makeText(this, "Network isn't available", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        if ( item.isCheckable() ) {
+            // leave if the list is null
+            if ( buildingList == null ) {
+                return true;
+            }
+
+            // which sort menu item did the user pick?
+            switch( item.getItemId() ) {
+                case R.id.action_sort_name_asc:
+                    Collections.sort( buildingList, new Comparator<Building>() {
+                        @Override
+                        public int compare( Building lhs, Building rhs ) {
+                            Log.i( "BUILDINGS", "Sorting buildings by name (a-z)" );
+                            return lhs.getName().compareTo( rhs.getName() );
+                        }
+                    });
+                    break;
+
+                case R.id.action_sort_name_dsc:
+                    Collections.sort( buildingList, Collections.reverseOrder(new Comparator<Building>() {
+                        @Override
+                        public int compare( Building lhs, Building rhs ) {
+                            Log.i( "BUILDINGS", "Sorting buildings by name (z-a)" );
+                            return lhs.getName().compareTo( rhs.getName() );
+                        }
+                    }));
+                    break;
+            }
+            // remember which sort option the user picked
+            item.setChecked( true );
+            // re-fresh the list to show the sort order
+            ((ArrayAdapter)getListAdapter()).notifyDataSetChanged();
+        }
+        return true;
     }
 
     private void requestData(String uri) {
