@@ -10,10 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
-import com.algonquincollege.doir0008.doorsopenottawa.model.Building;
-import com.algonquincollege.doir0008.doorsopenottawa.parsers.IdJSONParser;
 
 /**
  * Created by ryan on 2016-12-12.
@@ -50,12 +47,6 @@ public class EditBuildingActivity extends Activity {
 
                 // We need an Editor object to make preference changes.
                 SharedPreferences settings = getSharedPreferences( getResources().getString(R.string.app_name), Context.MODE_PRIVATE );
-//                SharedPreferences.Editor editor = settings.edit();
-//
-//                editor.putInt( "myID", building.getBuildingId() );
-//
-//                // Commit the edits!
-//                editor.commit();
 
                 // PUT for my building
                 RequestPackage pkg = new RequestPackage();
@@ -67,40 +58,17 @@ public class EditBuildingActivity extends Activity {
                 MyTask task = new MyTask();
                 task.execute( pkg );
 
-
                 Intent intent = new Intent( EditBuildingActivity.this, MainActivity.class );
                 startActivity( intent );
-
-
-
-
             }
         });
     }
 
     private class MyTask extends AsyncTask<RequestPackage, String, String> {
-
-
-
         @Override
         protected String doInBackground(RequestPackage... params) {
-
-            // String content = HttpManager.getData(params[0]);
-//            String content = HttpManager.getData( params[0], "doir0008", "password" );
             String content = HttpManager.crud( params[0], "doir0008", "password" );
-            Log.i("PUT results", content);
-
-
-
-//            building = IdJSONParser.parseFeed(content);
-
-//            building.getBuildingId()
-
-
-
             return content;
-
         }
-
     }
 }

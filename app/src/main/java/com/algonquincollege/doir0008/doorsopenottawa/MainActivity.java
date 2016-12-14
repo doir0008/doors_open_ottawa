@@ -2,7 +2,6 @@ package com.algonquincollege.doir0008.doorsopenottawa;
 
 import android.app.AlertDialog;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Context;
@@ -13,7 +12,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Menu;
@@ -28,11 +26,6 @@ import android.widget.ListView;
 
 import com.algonquincollege.doir0008.doorsopenottawa.model.Building;
 import com.algonquincollege.doir0008.doorsopenottawa.parsers.BuildingJSONParser;
-//import com.algonquincollege.doir0008.doorsopenottawa.HttpManager;
-//import com.algonquincollege.doir0008.doorsopenottawa.HttpMethod;
-//import com.algonquincollege.doir0008.doorsopenottawa.RequestPackage;
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -50,7 +43,6 @@ import java.util.List;
  */
 
  public class MainActivity extends ListActivity implements SwipeRefreshLayout.OnRefreshListener {
-//public class MainActivity extends ListActivity {
 
     // URL to RESTful API Service hosted on Bluemix account.
     public static final String IMAGES_BASE_URL = "https://doors-open-ottawa-hurdleg.mybluemix.net/";
@@ -63,11 +55,7 @@ import java.util.List;
     private List<MyTask> tasks;
 
     private List<Building> buildingList;
-//    private ArrayList favBuildings = new ArrayList();
-
     private Context myContext = this;
-
-//    public int myID = 123;
 
     // Swipe refresh
     SwipeRefreshLayout swipeRefreshList;
@@ -91,7 +79,6 @@ import java.util.List;
         swipeRefreshList = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_list);
         swipeRefreshList.setOnRefreshListener(this);
 
-        // TODO: SharedPrefs
         final SharedPreferences settings = getSharedPreferences( getResources().getString(R.string.app_name), Context.MODE_PRIVATE );
 
         // single selection && register this ListActivity as the event handler
@@ -131,13 +118,6 @@ import java.util.List;
                 return false;
             }
         });
-
-////        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-//        // load up fav buildings
-//        int arraySize = settings.getInt("array_size", 0);
-//        for ( int i = 0; i < arraySize; i++ ) {
-//            favBuildings.add( settings.getString("favItem" + i, null) );
-//        }
 
         if (isOnline()) {
             requestData( REST_URI );
@@ -179,22 +159,11 @@ import java.util.List;
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
 
-
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-//        int id = item.getItemId();
-//
-//        if (id == R.id.action_about) {
-//            DialogFragment newFragment = new AboutDialogFragment();
-//            newFragment.show(getFragmentManager(), ABOUT_DIALOG_TAG);
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
 
         if (item.getItemId() == R.id.action_about) {
             DialogFragment newFragment = new AboutDialogFragment();
@@ -210,8 +179,6 @@ import java.util.List;
 
         if (item.getItemId() == R.id.action_put_data) {
             if (isOnline()) {
-//                updatePlanet( REST_URI );
-
                 Intent intent = new Intent( MainActivity.this, EditBuildingActivity.class );
                 startActivity( intent );
 
@@ -222,8 +189,6 @@ import java.util.List;
 
         if (item.getItemId() == R.id.action_delete_data) {
             if (isOnline()) {
-//                deletePlanet( REST_URI );
-
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
                 // set title
@@ -235,10 +200,6 @@ import java.util.List;
                         .setCancelable(false)
                         .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
-                                // if this button is clicked, close
-                                // current activity
-//                                MainActivity.this.finish();
-
                                 // need to get ID of my building
                                 SharedPreferences settings = getSharedPreferences( getResources().getString(R.string.app_name), Context.MODE_PRIVATE );
 
@@ -264,31 +225,6 @@ import java.util.List;
 
                 // show it
                 alertDialog.show();
-
-
-
-
-
-
-
-
-
-
-
-//                    // need to get ID of my building
-//                SharedPreferences settings = getSharedPreferences( getResources().getString(R.string.app_name), Context.MODE_PRIVATE );
-////                settings.getInt("myID", 0);
-//
-//                    // send request to delete
-//                    RequestPackage pkg = new RequestPackage();
-//                    pkg.setMethod( HttpMethod.DELETE );
-//                    pkg.setUri( REST_URI + "/" + settings.getInt("myID", 0) );
-//
-//                    MyTask task = new MyTask();
-//                    task.execute( pkg );
-
-
-
             } else {
                 Toast.makeText(this, "Network isn't available", Toast.LENGTH_LONG).show();
             }
@@ -331,16 +267,12 @@ import java.util.List;
     }
 
     private void requestData(String uri) {
-
         // new http methods
         RequestPackage pkg = new RequestPackage();
         pkg.setMethod( HttpMethod.GET );
         pkg.setUri( uri );
         MyTask task = new MyTask();
         task.execute( pkg );
-
-//        MyTask task = new MyTask();
-//        task.execute(uri);
     }
 
     protected void updateDisplay() {
@@ -373,11 +305,8 @@ import java.util.List;
     // Swipe refresh
     @Override
     public void onRefresh() {
-        Log.i(LOG_TAG, "onRefresh called from SwipeRefreshLayout");
-
         // This method performs the actual data-refresh operation.
         // The method calls setRefreshing(false) when it's finished.
-        // myUpdateOperation();
         if (isOnline()) {
             requestData( REST_URI );
             swipeRefreshList.setRefreshing(false);
@@ -386,26 +315,7 @@ import java.util.List;
         }
     }
 
-
-//    // TODO: SharedPrefs - remember saved settings
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//
-//        // We need an Editor object to make preference changes.
-//        SharedPreferences settings = getSharedPreferences( getResources().getString(R.string.app_name), Context.MODE_PRIVATE );
-//        SharedPreferences.Editor editor = settings.edit();
-//
-//        editor.putInt( "myID",   mModel.getRed() );
-//
-//        // Commit the edits!
-//        editor.commit();
-//    }
-
-//    private class MyTask extends AsyncTask<String, String, List<Building>> {
     private class MyTask extends AsyncTask<RequestPackage, String, List<Building>> {
-
-
         @Override
         protected void onPreExecute() {
             if (tasks.size() == 0) {
@@ -416,13 +326,8 @@ import java.util.List;
 
         @Override
         protected List<Building> doInBackground(RequestPackage... params) {
-
-            // String content = HttpManager.getData(params[0]);
-//            String content = HttpManager.getData( params[0], "doir0008", "password" );
             String content = HttpManager.crud( params[0], "doir0008", "password" );
-
             buildingList = BuildingJSONParser.parseFeed(content);
-
             return buildingList;
         }
 

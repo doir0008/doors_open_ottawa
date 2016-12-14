@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.LruCache;
@@ -84,19 +83,13 @@ public class BuildingAdapter extends ArrayAdapter<Building> {
 
         // favourites logic
         final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-
-        Log.e("favs contain?", Boolean.toString( favs.contains( building.getBuildingId() + "" ) ) );
-
         checkBox.setChecked( favs.contains( building.getBuildingId() + "" ) );
-        Log.e("setTag?", building.getBuildingId() + "" );
         checkBox.setTag( building.getBuildingId() + "" );
 
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("check onclick?", "start" );
                 String myBuildingId = (String) v.getTag();
-                Log.e("myBuildingId?", myBuildingId );
                 if ( favs.contains( myBuildingId ) ) {
                     favs.remove( myBuildingId );
                 } else {
@@ -107,7 +100,6 @@ public class BuildingAdapter extends ArrayAdapter<Building> {
                 for ( int i = 0; i < favs.size(); i++ ) {
                     mEdit1.remove( "favItem" + i );
                     mEdit1.putString( "favItem" + i, favs.get( i ).toString() );
-                    Log.e("putString?", favs.get( i ).toString() );
                     mEdit1.commit();
                 }
             }
@@ -116,12 +108,10 @@ public class BuildingAdapter extends ArrayAdapter<Building> {
         // Display building photo in ImageView widget
         Bitmap bitmap = imageCache.get(building.getBuildingId());
         if (bitmap != null) {
-            Log.i( "BUILDING", building.getName() + "\tbitmap in cache");
             ImageView image = (ImageView) view.findViewById(R.id.buildingImage);
             image.setImageBitmap(building.getBitmap());
         }
         else {
-            Log.i( "BUILDING", building.getName() + "\tfetching bitmap using AsyncTask");
             BuildingAndView container = new BuildingAndView();
             container.building = building;
             container.view = view;
@@ -166,10 +156,6 @@ public class BuildingAdapter extends ArrayAdapter<Building> {
 
         @Override
         protected void onPostExecute(BuildingAndView result) {
-//            ImageView image = (ImageView) result.view.findViewById(R.id.buildingImage);
-//            image.setImageBitmap(result.bitmap);
-//            imageCache.put(result.building.getBuildingId(), result.bitmap);
-
             // Guard for null results to prevent crashing
             if( result != null ) {
                 ImageView image = (ImageView) result.view.findViewById(R.id.buildingImage);

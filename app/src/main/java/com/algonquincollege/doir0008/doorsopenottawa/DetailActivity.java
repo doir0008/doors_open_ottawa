@@ -12,7 +12,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import android.location.Geocoder;
 import android.location.Address;
-import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -94,16 +93,9 @@ public class DetailActivity extends FragmentActivity implements OnMapReadyCallba
             mMap.addMarker( new MarkerOptions().position(ll).title(locationName) );
             mMap.moveCamera(CameraUpdateFactory.zoomTo(16.0f));
             mMap.moveCamera( CameraUpdateFactory.newLatLng(ll) );
-            // Toast.makeText(this, "Pinned: " + locationName, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            // Toast.makeText(this, "Not found: " + locationName, Toast.LENGTH_SHORT).show();
             // fallback pin to Ottawa
             pin("Ottawa, On");
         }
     }
-
-
-
-
-
 }
