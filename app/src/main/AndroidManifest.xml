@@ -40,11 +40,21 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <!--  *************SEARCH***************************  -->
+                <action android:name="android.intent.action.SEARCH" />
+                <!--  *************SEARCH***************************  -->
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!--  *************SEARCH***************************  -->
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+            <!--  *************SEARCH***************************  -->
+
         </activity>
         <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".NewBuildingActivity"></activity>
+        <activity android:name=".EditBuildingActivity"></activity>
+
     </application>
 
 </manifest>

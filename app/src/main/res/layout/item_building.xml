@@ -39,4 +39,12 @@
         android:layout_toEndOf="@+id/buildingImage"
         android:textStyle="normal|bold" />
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView1"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/checkBox"
+        android:focusable="false" />
+
 </RelativeLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Building Name:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:textColor="#000000"
+        android:textStyle="normal|bold" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/newBuildingName"
+        android:hint="Type building name"
+        android:textSize="14sp" />
+
+    <TextView
+        android:text="Building Address:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:textStyle="normal|bold"
+        android:textColor="#000000" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/newBuildingAddress"
+        android:hint="Type building address"
+        android:textSize="14sp" />
+
+    <TextView
+        android:text="Building Description:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:textColor="#000000"
+        android:textStyle="normal|bold" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/newBuildingDescription"
+        android:hint="Type building description"
+        android:textSize="14sp" />
+
+    <TextView
+        android:text="Image Filename:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView5"
+        android:textStyle="normal|bold"
+        android:textColor="#000000" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/newBuildingImage"
+        android:textSize="14sp"
+        android:hint="Image filename" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:id="@+id/imageView"
+        android:contentDescription="photo"
+        android:layout_height="200dp"
+        android:src="@android:drawable/ic_menu_gallery" />
+
+    <Button
+        android:text="Save"
+        android:id="@+id/saveBtn"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="Cancel"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancelBtn" />
+</LinearLayout>
